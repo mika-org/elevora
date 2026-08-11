@@ -19,6 +19,7 @@ export function Footer() {
     }
   };
 
+  
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     const element = document.getElementById(id);
     if (element) {
