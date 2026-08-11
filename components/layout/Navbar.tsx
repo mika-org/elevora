@@ -17,7 +17,7 @@ export function Logo() {
         height="36"
         viewBox="0 0 100 100"
         fill="none"
-        xmlns="http://www.w3.org/2000/svg"
+        xmlns="https://www.w3.org/2000/svg"
         className="group-hover:scale-105 transition-transform duration-300"
       >
         <defs>
