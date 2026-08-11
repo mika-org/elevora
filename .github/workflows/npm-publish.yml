@@ -37,9 +37,9 @@ jobs:
             npm run build
 
             if pm2 describe elevora > /dev/null 2>&1; then
-              PORT=3003 pm2 restart elevora --update-env
+              PORT=3000 pm2 restart elevora --update-env
             else
-              PORT=3003 pm2 start npm --name elevora -- start
+              PORT=3000 pm2 start npm --name elevora -- start
             fi
 
             pm2 save
