@@ -28,11 +28,6 @@ jobs:
           script: |
             set -e
 
-            # Ensure NVM / Node / PM2 PATH is loaded in non-interactive SSH
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-            export PATH=$PATH:/usr/local/bin:$HOME/.local/bin:$HOME/.npm-global/bin
-
             cd /var/www/html/elevora
 
             git pull origin main
@@ -41,10 +36,10 @@ jobs:
 
             npm run build
 
-            if pm2 describe elevora > /dev/null 2>&1; then
-              pm2 restart elevora --update-env
+            if pm2 describe elevore > /dev/null 2>&1; then
+              PORT=3000 pm2 restart elevore --update-env
             else
-              pm2 start ecosystem.config.cjs
+              PORT=3000 pm2 start npm --name elevore -- start
             fi
 
             pm2 save
