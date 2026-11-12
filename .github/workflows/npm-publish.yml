@@ -36,10 +36,10 @@ jobs:
 
             npm run build
 
-            if pm2 describe elevora > /dev/null 2>&1; then
-              PORT=3000 pm2 restart elevora --update-env
+            if pm2 describe elevore > /dev/null 2>&1; then
+              PORT=3000 pm2 restart elevore --update-env
             else
-              PORT=3000 pm2 start npm --name elevora -- start
+              PORT=3000 pm2 start npm --name elevore -- start
             fi
 
             pm2 save
@@ -90,7 +90,7 @@ jobs:
             🖥 *Server:*
             `${{ secrets.VPS_HOST }}`
 
-            🌐 *Application Port:* `3002`
+            🌐 *Application Port:* `3000`
 
             🕒 *Finished:* `${{ env.FINISHED }}`
             ⏱ *Duration:* `${{ env.DURATION }}`
@@ -122,7 +122,7 @@ jobs:
             🖥 *Server:*
             `${{ secrets.VPS_HOST }}`
 
-            🌐 *Application Port:* `3002`
+            🌐 *Application Port:* `3000`
 
             🕒 *Finished:* `${{ env.FINISHED }}`
             ⏱ *Duration:* `${{ env.DURATION }}`
