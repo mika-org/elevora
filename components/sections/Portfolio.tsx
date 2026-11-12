@@ -1,155 +1,160 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { ArrowUpRight } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Highlight, SectionTitle } from "@/components/shared/Highlight";
+import { cn } from "@/lib/utils";
+
+// TODO: replace problem/solution/result copy (and add real logos) with each client's actual story.
+const CLIENTS = [
+  {
+    name: "Warkop Galaksi",
+    tone: "bg-coral text-ink",
+    problem: "Pesanan dari WA sering kelewat pas lagi ramai",
+    solution: "Menu digital dan sistem pesanan online",
+    result: "Pesanan tercatat rapi, nggak ada yang kelewat",
+  },
+  {
+    name: "TK Istiqamah",
+    tone: "bg-blue text-white",
+    problem: "Pendaftaran murid baru masih pakai kertas",
+    solution: "Website sekolah dengan formulir pendaftaran online",
+    result: "Data pendaftar langsung terkumpul di satu tempat",
+  },
+  {
+    name: "Firma Hukum :(",
+    tone: "bg-teal text-ink",
+    problem: "Calon klien susah menemukan info layanan",
+    solution: "Website profil yang rapi dan mudah dibuka dari HP",
+    result: "Calon klien bisa langsung konsultasi lewat WA",
+  },
+  {
+    name: "AWeHa",
+    tone: "bg-yellow text-ink",
+    problem: "Stok sering selisih antara gudang dan catatan",
+    solution: "Sistem pencatatan stok otomatis",
+    result: "Stok selalu sesuai, nggak perlu hitung ulang",
+  },
+  {
+    name: "Adhivasindog",
+    tone: "bg-purple text-white",
+    problem: "Rekap penjualan makan waktu berjam-jam",
+    solution: "Dashboard laporan penjualan harian",
+    result: "Omzet bisa dicek kapan aja dari HP",
+  },
+  {
+    name: "Barrack Biliard",
+    tone: "bg-orange text-ink",
+    problem: "Jadwal booking meja bentrok",
+    solution: "Sistem booking meja online",
+    result: "Jadwal tertata, pelanggan bisa pesan sendiri",
+  },
+];
+
+function initials(name: string) {
+  return name
+    .replace(/[^A-Za-z ]/g, "")
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase();
+}
 
 export function Portfolio() {
-  const [filter, setFilter] = useState("all");
-
-  const categories = [
-    { value: "all", label: "Semua" },
-    { value: "web", label: "Web Development" },
-    { value: "dashboard", label: "Admin Dashboard" },
-    { value: "ui", label: "UI/UX Design" },
-  ];
-
-  const projects = [
-    {
-      id: "1",
-      name: "Kopi Kenangan Landing Page",
-      category: "web",
-      imageGrad: "from-amber-500 via-orange-600 to-red-500",
-      description: "Landing page modern dengan fitur order integration.",
-    },
-    {
-      id: "2",
-      name: "Alfamart Stock Management",
-      category: "dashboard",
-      imageGrad: "from-indigo-600 via-purple-600 to-pink-500",
-      description: "Admin panel inventori dengan pelaporan ekspor CSV otomatis.",
-    },
-    {
-      id: "3",
-      name: "Indomaret E-Ticketing",
-      category: "web",
-      imageGrad: "from-teal-400 via-blue-500 to-indigo-600",
-      description: "Platform registrasi dan penjualan tiket online PPDB/Event.",
-    },
-    {
-      id: "4",
-      name: "Traveloka Booking Experience",
-      category: "ui",
-      imageGrad: "from-pink-500 via-rose-500 to-amber-500",
-      description: "Redesain UI/UX pencarian hotel untuk konversi konstan.",
-    },
-    {
-      id: "5",
-      name: "Transmart Smart POS Platform",
-      category: "dashboard",
-      imageGrad: "from-blue-600 via-cyan-500 to-teal-400",
-      description: "Aplikasi kasir multi-cabang terintegrasi cloud.",
-    },
-    {
-      id: "6",
-      name: "Aplikasi Sekolah TK Smart",
-      category: "web",
-      imageGrad: "from-violet-600 via-fuchsia-600 to-pink-500",
-      description: "Portal pendaftaran digital dan admin monitoring berkas.",
-    },
-  ];
-
-  const filteredProjects =
-    filter === "all" ? projects : projects.filter((p) => p.category === filter);
+  const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section id="portofolio" className="py-20 bg-white dark:bg-brand-dark transition-colors duration-300">
-      <div className="container mx-auto px-6">
-        
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <h2 className="text-xs font-bold uppercase tracking-widest text-brand-primary mb-3">
-            Portofolio Kami
-          </h2>
-          <p className="text-3xl md:text-4xl font-extrabold tracking-tight text-brand-dark dark:text-white mb-4">
-            Karya Terbaik dari Elevora
-          </p>
-          <p className="text-brand-gray dark:text-gray-400 text-sm">
-            Kami bangga mempersembahkan deretan sistem dan platform digital yang dibangun dengan standar kualitas tinggi untuk klien kami.
-          </p>
-        </div>
+    <section id="portofolio" className="sheet bg-lavender pb-28 pt-20">
+      <div className="mx-auto max-w-6xl px-6">
+        <SectionTitle>
+          Portofolio <Highlight tone="blue">kami</Highlight>
+        </SectionTitle>
+        <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-soft">
+          Masalah yang mereka bawa, solusi yang kami buat, dan hasilnya. Ketuk kartu klien untuk
+          melihatnya.
+        </p>
 
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mb-12">
-          {categories.map((cat) => (
-            <Button
-              key={cat.value}
-              variant={filter === cat.value ? "default" : "ghost"}
-              onClick={() => setFilter(cat.value)}
-              className={`rounded-full px-5 py-2 text-xs font-bold transition-all ${
-                filter === cat.value
-                  ? "bg-brand-primary text-white shadow-md"
-                  : "text-brand-gray dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-zinc-800"
-              }`}
-            >
-              {cat.label}
-            </Button>
-          ))}
-        </div>
-
-        {/* Projects Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => (
-              <motion.div
+        <div className="mt-10 grid items-start gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {CLIENTS.map((c, i) => {
+            const isOpen = open === i;
+            const light = c.tone.includes("text-white");
+            return (
+              <motion.button
+                key={c.name}
+                type="button"
                 layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4 }}
-                key={project.id}
-                className="group relative rounded-[2rem] overflow-hidden border border-gray-100 dark:border-white/5 bg-gray-50 dark:bg-zinc-900 aspect-video shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer"
+                onClick={() => setOpen(isOpen ? null : i)}
+                aria-expanded={isOpen}
+                whileHover={{ y: -4 }}
+                transition={{ layout: { duration: 0.3 } }}
+                className={cn(
+                  "flex min-h-[170px] flex-col rounded-2xl p-5 text-left shadow-[0_12px_28px_-16px_rgba(27,31,58,0.45)] outline-offset-4 focus-visible:outline-2 focus-visible:outline-ink",
+                  c.tone
+                )}
               >
-                {/* Styled Project Graphic Backdrop */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${project.imageGrad} opacity-80 group-hover:scale-110 group-hover:blur-sm transition-all duration-500`} />
-                
-                {/* Grid Overlay Screen */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_20%,rgba(0,0,0,0.5)_80%)]" />
+                <motion.span
+                  layout="position"
+                  className="grid h-12 w-12 place-items-center rounded-xl bg-white text-xs font-bold text-ink"
+                  aria-hidden
+                >
+                  {initials(c.name)}
+                </motion.span>
+                <motion.span layout="position" className="mt-auto pt-6 text-lg font-bold">
+                  {c.name}
+                </motion.span>
 
-                {/* Content Overlay */}
-                <div className="absolute inset-0 p-8 flex flex-col justify-between z-10 bg-black/10 group-hover:bg-black/30 transition-colors duration-300">
-                  <div className="flex items-start justify-between">
-                    <span className="px-3 py-1 text-[10px] font-extrabold uppercase tracking-wider bg-white/20 backdrop-blur-md rounded-full text-white">
-                      {project.category === "web"
-                        ? "Web Development"
-                        : project.category === "dashboard"
-                        ? "Admin Dashboard"
-                        : "UI/UX Design"}
-                    </span>
-                    <div className="h-9 w-9 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 group-hover:rotate-45 transition-all duration-300 border border-white/20">
-                      <ArrowUpRight className="h-4 w-4" />
-                    </div>
-                  </div>
-
-                  <div>
-                    <h3 className="text-xl font-black text-white tracking-tight mb-2">
-                      {project.name}
-                    </h3>
-                    <p className="text-white/80 text-xs leading-relaxed max-w-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      {project.description}
-                    </p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
+                <AnimatePresence initial={false} mode="popLayout">
+                  {isOpen ? (
+                    <motion.span
+                      key="detail"
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="mt-3 flex flex-col gap-2 text-sm"
+                    >
+                      <Pill light={light}>Masalah</Pill>
+                      <span>{c.problem}</span>
+                      <Pill light={light}>Solusi</Pill>
+                      <span>{c.solution}</span>
+                      <span className="mt-2 rounded-xl bg-white p-3 text-ink">
+                        <span className="inline-block rounded-full bg-yellow px-2 py-0.5 text-[10px] font-bold uppercase">
+                          Hasil
+                        </span>
+                        <span className="mt-1.5 block font-semibold">{c.result}</span>
+                      </span>
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="hint"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 0.8 }}
+                      exit={{ opacity: 0 }}
+                      className="mt-1 text-xs"
+                    >
+                      Ketuk untuk lihat masalah, solusi, dan hasilnya
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </motion.button>
+            );
+          })}
+        </div>
       </div>
     </section>
+  );
+}
+
+function Pill({ light, children }: { light: boolean; children: React.ReactNode }) {
+  return (
+    <span
+      className={cn(
+        "w-fit rounded-full px-2 py-0.5 text-[10px] font-bold uppercase",
+        light ? "bg-white/25 text-white" : "bg-white/60 text-ink"
+      )}
+    >
+      {children}
+    </span>
   );
 }
