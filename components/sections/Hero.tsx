@@ -7,27 +7,29 @@ import { cn } from "@/lib/utils";
 
 type ChatStep =
   | { from: "kamu" | "elevore"; text: string }
-  | { typing: true };
+  | { typing: true; from: "kamu" | "elevore" };
 
 // Mirrors the "Hero Chat" component states in Figma.
 const SCRIPT: ChatStep[] = [
+  { typing: true, from: "kamu" },
   { from: "kamu", text: "Halo, pesanan tokoku numpuk di WA terus" },
-  { typing: true },
+  { typing: true, from: "elevore" },
   { from: "elevore", text: "Ceritain aja dulu. Sehari biasanya berapa pesanan?" },
+  { typing: true, from: "kamu" },
   { from: "kamu", text: "Sekitar 50, stok juga sering selisih" },
-  { typing: true },
+  { typing: true, from: "elevore" },
   { from: "elevore", text: "Okeyy kami punya ide, mau lihat gambarannya?" },
 ];
 
 function HeroChat() {
-  const [step, setStep] = useState(0);
+  const [step, setStep] = useState(1);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const done = step >= SCRIPT.length;
     const current = SCRIPT[step - 1];
     const delay = done ? 3200 : current && "typing" in current ? 1100 : 1300;
-    const t = setTimeout(() => setStep(done ? 0 : step + 1), delay);
+    const t = setTimeout(() => setStep(done ? 1 : step + 1), delay);
     return () => clearTimeout(t);
   }, [step]);
 
@@ -40,7 +42,7 @@ function HeroChat() {
     const el = scrollRef.current;
     if (!el) return;
     const id = requestAnimationFrame(() =>
-      el.scrollTo({ top: step === 0 ? 0 : el.scrollHeight, behavior: "smooth" })
+      el.scrollTo({ top: step <= 1 ? 0 : el.scrollHeight, behavior: "smooth" })
     );
     return () => cancelAnimationFrame(id);
   }, [step]);
@@ -60,12 +62,18 @@ function HeroChat() {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="flex w-fit gap-1 rounded-full bg-yellow px-3 py-2"
+              className={cn(
+                "flex w-fit gap-1 rounded-full px-3 py-2",
+                m.from === "kamu" ? "self-end bg-blue" : "self-start bg-yellow"
+              )}
             >
               {[0, 1, 2].map((d) => (
                 <motion.span
                   key={d}
-                  className="h-1.5 w-1.5 rounded-full bg-ink"
+                  className={cn(
+                    "h-1.5 w-1.5 rounded-full",
+                    m.from === "kamu" ? "bg-white" : "bg-ink"
+                  )}
                   animate={{ opacity: [0.3, 1, 0.3] }}
                   transition={{ duration: 0.9, repeat: Infinity, delay: d * 0.15 }}
                 />
