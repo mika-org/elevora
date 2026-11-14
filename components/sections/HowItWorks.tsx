@@ -54,7 +54,7 @@ export function HowItWorks() {
         </p>
 
         <div className="mt-10 grid gap-5 md:grid-cols-[230px_1fr] md:items-start">
-          <ol className="flex gap-2 overflow-x-auto pb-1 md:flex-col md:overflow-visible md:pb-0">
+          <ol className="flex gap-2 overflow-x-auto pb-2 [scrollbar-color:var(--color-blue)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-blue/60 [&::-webkit-scrollbar-track]:bg-transparent md:flex-col md:overflow-visible md:pb-0">
             {STEPS.map((s, i) => (
               <li key={s.title} className="shrink-0">
                 <button

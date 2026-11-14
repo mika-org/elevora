@@ -29,14 +29,14 @@ const CLIENTS = [
     result: "Calon klien bisa langsung konsultasi lewat WA",
   },
   {
-    name: "AWeHa",
+    name: "Aurvella",
     tone: "bg-yellow text-ink",
     problem: "Stok sering selisih antara gudang dan catatan",
     solution: "Sistem pencatatan stok otomatis",
     result: "Stok selalu sesuai, nggak perlu hitung ulang",
   },
   {
-    name: "Adhivasindog",
+    name: "Jurnal Polisi",
     tone: "bg-purple text-white",
     problem: "Rekap penjualan makan waktu berjam-jam",
     solution: "Dashboard laporan penjualan harian",

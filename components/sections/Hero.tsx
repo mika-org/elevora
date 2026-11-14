@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { whatsappLink } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -21,6 +21,7 @@ const SCRIPT: ChatStep[] = [
 
 function HeroChat() {
   const [step, setStep] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const done = step >= SCRIPT.length;
@@ -34,9 +35,20 @@ function HeroChat() {
     (m, i) => !("typing" in m) || i === step - 1
   );
 
+  // Keep the newest bubble in view: smooth-scroll to the bottom on each step.
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const id = requestAnimationFrame(() =>
+      el.scrollTo({ top: step === 0 ? 0 : el.scrollHeight, behavior: "smooth" })
+    );
+    return () => cancelAnimationFrame(id);
+  }, [step]);
+
   return (
     <div
-      className="flex h-[320px] w-full flex-col justify-start gap-3 overflow-hidden rounded-3xl bg-white p-5 shadow-[0_20px_50px_-24px_rgba(27,31,58,0.25)] sm:h-[340px]"
+      ref={scrollRef}
+      className="flex h-[320px] w-full flex-col justify-start gap-3 overflow-y-auto overscroll-contain scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-3xl bg-white p-5 shadow-[0_20px_50px_-24px_rgba(27,31,58,0.25)] sm:h-[340px]"
       aria-label="Contoh percakapan dengan Elevore"
       role="img"
     >
